@@ -5,15 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>FireflyApex | Legacy Holdings</title>
     
-    <!-- Mobile App Settings -->
+    <!-- PWA / Home Screen Icon Support -->
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="FireflyApex">
     
-    <!-- Premium Blue Icon -->
-    <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='100' fill='%23020617'/%3E%3Ccircle cx='256' cy='256' r='180' fill='none' stroke='%231d4ed8' stroke-width='30'/%3E%3Cpath d='M256 120 L256 392 M120 256 L392 256' stroke='%2360a5fa' stroke-width='40' stroke-linecap='round'/%3E%3C/svg%3E">
-    <link id="manifest-link" rel="manifest">
+    <!-- Premium Blue Icon for iOS -->
+    <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='100' fill='%23020617'/%3E%3Ccircle cx='256' cy='256' r='180' fill='none' stroke='%233b82f6' stroke-width='30'/%3E%3Cpath d='M256 120 L256 392 M120 256 L392 256' stroke='%2360a5fa' stroke-width='40' stroke-linecap='round'/%3E%3C/svg%3E">
+    
+    <!-- Self-Generating Manifest Placeholder -->
+    <link id="manifest-placeholder">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
@@ -23,132 +25,253 @@
         
         body {
             font-family: 'Outfit', sans-serif;
-            background: radial-gradient(circle at 50% -20%, #1e3a8a 0%, #020617 80%);
+            background: #020617;
             color: #ffffff;
             height: 100vh;
+            width: 100vw;
             display: flex;
             flex-direction: column;
-            overflow: hidden;
+            overflow: hidden; 
         }
 
-        .premium-card {
-            background: linear-gradient(145deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.01) 100%);
-            backdrop-filter: blur(20px);
+        .glass {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
             border: 1px solid rgba(59, 130, 246, 0.2);
-            border-radius: 20px;
         }
 
-        .btn-apex {
-            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
-            box-shadow: 0 0 30px rgba(37, 99, 235, 0.3);
+        .progress-gradient {
+            background: linear-gradient(90deg, #2563eb, #60a5fa);
+            transition: width 0.4s ease-out;
+        }
+
+        @keyframes scan {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100%); }
+        }
+        .scanner-line {
+            height: 2px;
+            background: rgba(96, 165, 250, 0.5);
+            box-shadow: 0 0 15px #3b82f6;
+            animation: scan 2s linear infinite;
         }
 
         #install-banner {
             display: none;
-            position: fixed;
-            bottom: 20px;
-            left: 15px;
-            right: 15px;
-            z-index: 1000;
+            animation: slideUp 0.5s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
         }
     </style>
 </head>
-<body class="p-6">
+<body class="p-4 safe-area-inset">
 
-    <header class="flex justify-between items-start mb-4">
+    <!-- Header -->
+    <header class="flex justify-between items-center mb-4">
         <div>
-            <h1 class="text-3xl font-extrabold italic tracking-tighter uppercase">Firefly<span class="text-blue-500">Apex</span></h1>
-            <p class="text-[8px] font-bold text-blue-400 tracking-[0.3em]">LEGACY HOLDINGS PROTOCOL</p>
+            <h1 class="text-2xl font-black italic tracking-tighter uppercase leading-none">Firefly<span class="text-blue-500">Apex</span></h1>
+            <p class="text-[7px] font-bold text-blue-400 tracking-[0.3em]">LEGACY HOLDINGS PROTOCOL</p>
         </div>
         <div class="text-right">
-            <p class="text-[10px] font-bold uppercase">M. Atkinson</p>
-            <p class="text-[8px] text-blue-400">DEV-SEC-072</p>
+            <p class="text-[10px] font-bold uppercase leading-none">Mark Atkinson</p>
+            <p class="text-[7px] text-blue-400">CHIEF ARCHITECT</p>
         </div>
     </header>
 
-    <main class="flex-1 flex flex-col items-center justify-center space-y-6">
-        <div class="premium-card p-12 w-full text-center relative overflow-hidden">
-            <div class="absolute top-0 right-0 p-3 opacity-10"><i class="fa-solid fa-satellite-dish"></i></div>
-            <i class="fa-solid fa-crosshairs text-blue-500 text-7xl mb-6 shadow-blue-500/50"></i>
-            <h2 class="text-2xl font-black tracking-widest uppercase">System Active</h2>
-            <p id="status-text" class="text-blue-300/40 text-[10px] uppercase mt-4 tracking-[0.2em]">Ready for Optimization</p>
-        </div>
-    </main>
-
-    <footer class="mt-6 space-y-4">
-        <div class="flex gap-2">
-            <button onclick="window.open('https://wa.me/27725045344?text=FireflyApex%20Support')" class="flex-1 py-4 rounded-2xl premium-card text-green-400 font-bold text-[10px] tracking-widest flex items-center justify-center gap-2">
-                <i class="fa-brands fa-whatsapp text-lg"></i> SUPPORT
-            </button>
-            <button onclick="shareApp()" class="flex-1 py-4 rounded-2xl premium-card text-blue-400 font-bold text-[10px] tracking-widest flex items-center justify-center gap-2">
-                <i class="fa-solid fa-share-nodes text-lg"></i> INVITE USERS
-            </button>
-        </div>
-        
-        <button onclick="startPurge()" class="w-full py-5 rounded-2xl btn-apex font-black text-sm tracking-[0.25em] uppercase">
-            Start 9-Step Purge
-        </button>
-    </footer>
-
-    <!-- Install Banner -->
-    <div id="install-banner" class="premium-card p-5 border-blue-500 bg-[#020617] shadow-2xl">
-        <div class="flex items-center justify-between gap-4">
+    <!-- Main View -->
+    <div id="main-view" class="flex-1 flex flex-col space-y-4 overflow-hidden">
+        <!-- Install App Banner (PWA Trigger) -->
+        <div id="install-banner" class="glass rounded-xl p-3 border-blue-500/50 bg-blue-500/10 flex items-center justify-between">
             <div class="flex items-center gap-3">
-                <div class="w-12 h-12 bg-blue-600 rounded-xl flex items-center justify-center text-xl shadow-lg">
-                    <i class="fa-solid fa-crosshairs"></i>
-                </div>
+                <i class="fa-solid fa-mobile-screen-button text-blue-400 text-lg"></i>
                 <div>
-                    <p class="text-sm font-bold">Install FireflyApex</p>
-                    <p class="text-[9px] text-blue-400 uppercase">Pin to Home Screen</p>
+                    <p class="text-[9px] font-black uppercase tracking-wider">Add to Home Screen</p>
+                    <p class="text-[7px] text-blue-300">Install FireflyApex Icon</p>
                 </div>
             </div>
-            <button id="install-btn" class="bg-white text-blue-900 px-5 py-2 rounded-lg text-xs font-black uppercase">Add</button>
+            <button id="install-button" class="bg-blue-600 px-4 py-2 rounded-lg text-[8px] font-black uppercase tracking-widest">Install</button>
+        </div>
+
+        <!-- Stats Card -->
+        <div class="glass rounded-2xl p-4 flex justify-between items-center">
+            <div>
+                <p class="text-[8px] uppercase text-blue-400 tracking-widest">Device Health</p>
+                <p id="health-pct" class="text-xl font-black">74%</p>
+            </div>
+            <div class="h-8 w-[1px] bg-blue-900"></div>
+            <div>
+                <p class="text-[8px] uppercase text-blue-400 tracking-widest">RAM Status</p>
+                <p id="ram-status" class="text-xl font-black">CRITICAL</p>
+            </div>
+            <div class="h-8 w-[1px] bg-blue-900"></div>
+            <div class="text-right">
+                <p class="text-[8px] uppercase text-blue-400 tracking-widest">Ghost Files</p>
+                <p id="ghost-count" class="text-xl font-black">1.4 GB</p>
+            </div>
+        </div>
+
+        <!-- Visualizer Area -->
+        <div id="visualizer" class="flex-1 glass rounded-3xl relative overflow-hidden flex items-center justify-center">
+            <div class="scanner-line absolute w-full top-0 left-0 z-10"></div>
+            <div class="text-center z-20">
+                <i id="main-icon" class="fa-solid fa-microchip text-6xl text-blue-500/50 mb-4"></i>
+                <p id="status-desc" class="text-[10px] uppercase tracking-[0.3em] font-bold text-blue-300">Ready to Purge</p>
+            </div>
+            <div class="absolute inset-0 opacity-10 pointer-events-none">
+                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 border border-blue-500 rounded-full"></div>
+                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 border border-blue-500 rounded-full opacity-50"></div>
+            </div>
         </div>
     </div>
 
+    <!-- Optimization Window -->
+    <div id="optimization-window" class="hidden flex-1 glass rounded-3xl p-6 flex flex-col space-y-4">
+        <div class="flex justify-between items-end">
+            <h3 class="text-xs font-black uppercase tracking-widest">Purge in Progress</h3>
+            <span id="step-counter" class="text-blue-500 text-[10px] font-bold">Step 0/10</span>
+        </div>
+        <div class="w-full h-1 bg-blue-950 rounded-full overflow-hidden">
+            <div id="progress-bar" class="progress-gradient h-full w-0"></div>
+        </div>
+        <div id="step-list" class="flex-1 overflow-y-auto space-y-2 pr-2 text-[10px]"></div>
+    </div>
+
+    <!-- Results Window -->
+    <div id="results-window" class="hidden flex-1 glass rounded-3xl p-6 flex flex-col">
+        <h3 class="text-center font-black uppercase tracking-widest mb-6">Optimization Report</h3>
+        <div class="space-y-6 flex-1">
+            <div class="grid grid-cols-2 gap-4">
+                <div class="bg-red-500/10 p-3 rounded-xl border border-red-500/20">
+                    <p class="text-[8px] uppercase text-red-400 mb-1">Before</p>
+                    <p class="text-lg font-black">74% Health</p>
+                    <p class="text-[9px]">1.4GB Waste</p>
+                </div>
+                <div class="bg-green-500/10 p-3 rounded-xl border border-green-500/20">
+                    <p class="text-[8px] uppercase text-green-400 mb-1">After</p>
+                    <p class="text-lg font-black text-green-400">100% Health</p>
+                    <p class="text-[9px] text-green-400">0B Waste</p>
+                </div>
+            </div>
+            <div class="p-4 bg-blue-500/5 rounded-2xl border border-blue-500/20 italic text-[11px] text-blue-200">
+                "Firefly Shielding is now active. Your device is running on Legacy Holdings Apex architecture. Ghost files have been successfully purged."
+            </div>
+        </div>
+        <button onclick="location.reload()" class="w-full py-4 glass rounded-2xl font-black text-[10px] uppercase tracking-widest">Dismiss Report</button>
+    </div>
+
+    <!-- Controls -->
+    <footer id="footer-actions" class="mt-4 grid grid-cols-2 gap-2">
+        <button onclick="startOptimization()" class="col-span-2 py-4 bg-blue-600 rounded-2xl font-black text-xs uppercase tracking-[0.3em] shadow-lg shadow-blue-600/20">
+            Run 10-Step Purge
+        </button>
+        <button onclick="shareApp()" class="py-3 glass rounded-xl text-[9px] font-bold uppercase tracking-widest flex items-center justify-center gap-2 text-blue-400">
+            <i class="fa-solid fa-user-plus"></i> Invite
+        </button>
+        <button onclick="openSupport()" class="py-3 glass rounded-xl text-[9px] font-bold uppercase tracking-widest flex items-center justify-center gap-2 text-green-400">
+            <i class="fa-brands fa-whatsapp"></i> Support
+        </button>
+    </footer>
+
     <script>
-        function startPurge() {
-            const status = document.getElementById('status-text');
-            status.innerText = "EXECUTING SYSTEM PURGE...";
-            setTimeout(() => {
-                const toast = document.createElement('div');
-                toast.className = "fixed top-10 left-1/2 -translate-x-1/2 bg-blue-600 p-4 rounded-xl text-[10px] font-bold uppercase tracking-widest z-[2000]";
-                toast.innerText = "Optimization Complete. Firefly Shielding is active.";
-                document.body.appendChild(toast);
-                status.innerText = "SYSTEM: 100% OPTIMIZED";
-                setTimeout(() => toast.remove(), 4000);
-            }, 2500);
+        // PWA Setup Logic
+        let deferredPrompt;
+        const installBanner = document.getElementById('install-banner');
+        const installBtn = document.getElementById('install-button');
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            installBanner.style.display = 'flex';
+        });
+
+        installBtn.addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') installBanner.style.display = 'none';
+                deferredPrompt = null;
+            }
+        });
+
+        // Dynamic Manifest Generation for Home Screen Icon
+        const manifest = {
+            "name": "FireflyApex",
+            "short_name": "FireflyApex",
+            "start_url": ".",
+            "display": "standalone",
+            "background_color": "#020617",
+            "theme_color": "#2563eb",
+            "icons": [{
+                "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='100' fill='%23020617'/%3E%3Ccircle cx='256' cy='256' r='180' fill='none' stroke='%233b82f6' stroke-width='30'/%3E%3Cpath d='M256 120 L256 392 M120 256 L392 256' stroke='%2360a5fa' stroke-width='40' stroke-linecap='round'/%3E%3C/svg%3E",
+                "sizes": "512x512",
+                "type": "image/svg+xml",
+                "purpose": "any maskable"
+            }]
+        };
+        const manifestBlob = new Blob([JSON.stringify(manifest)], {type: 'application/json'});
+        const manifestURL = URL.createObjectURL(manifestBlob);
+        document.querySelector('#manifest-placeholder').setAttribute('rel', 'manifest');
+        document.querySelector('#manifest-placeholder').setAttribute('href', manifestURL);
+
+        // Game/App Logic
+        const steps = [
+            "Identifying encryption leaks...",
+            "Mapping system ghost-files...",
+            "Isolating background RAM drains...",
+            "Clearing cached instruction sets...",
+            "Optimizing kernel handshake...",
+            "Purging 1.4GB temporary data...",
+            "Hardening Firefly Shield protocol...",
+            "Calibrating battery cycle logic...",
+            "Rebuilding metadata indexing...",
+            "Finalizing Apex performance suite..."
+        ];
+
+        function openSupport() {
+            window.open('https://wa.me/27725045344?text=Hello%20Mark%20Atkinson,%20I%20need%20support%20with%20FireflyApex.');
         }
 
         function shareApp() {
             const url = window.location.href;
-            const text = encodeURIComponent(`🚀 *FireflyApex Deployment*\nOptimize your device and secure your data with the Legacy Holdings 9-Step Purge.\n\nAccess here: ${url}`);
+            const text = encodeURIComponent(`🚀 *FireflyApex Deployment*\nRun the 10-Step Purge by Mark Atkinson.\n\nAccess: ${url}`);
             window.open(`https://wa.me/?text=${text}`);
         }
 
-        // PWA Icon Logic
-        const manifest = {
-            "name": "FireflyApex", "short_name": "Firefly", "start_url": ".", "display": "standalone",
-            "background_color": "#020617", "theme_color": "#1d4ed8",
-            "icons": [{"src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='100' fill='%23020617'/%3E%3Ccircle cx='256' cy='256' r='180' fill='none' stroke='%231d4ed8' stroke-width='30'/%3E%3Cpath d='M256 120 L256 392 M120 256 L392 256' stroke='%2360a5fa' stroke-width='40' stroke-linecap='round'/%3E%3C/svg%3E", "sizes": "512x512", "type": "image/svg+xml"}]
-        };
-        const blob = new Blob([JSON.stringify(manifest)], {type: 'application/json'});
-        document.getElementById('manifest-link').setAttribute('href', URL.createObjectURL(blob));
+        async function startOptimization() {
+            document.getElementById('main-view').classList.add('hidden');
+            document.getElementById('footer-actions').classList.add('hidden');
+            document.getElementById('optimization-window').classList.remove('hidden');
 
-        let deferredPrompt;
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            document.getElementById('install-banner').style.display = 'block';
-        });
+            const stepList = document.getElementById('step-list');
+            const progressBar = document.getElementById('progress-bar');
+            const counter = document.getElementById('step-counter');
 
-        document.getElementById('install-btn').addEventListener('click', async () => {
-            if (deferredPrompt) {
-                deferredPrompt.prompt();
-                deferredPrompt = null;
-                document.getElementById('install-banner').style.display = 'none';
+            for (let i = 0; i < steps.length; i++) {
+                const stepEl = document.createElement('div');
+                stepEl.className = "flex items-center gap-3 text-blue-400 animate-pulse";
+                stepEl.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin"></i> <span>${steps[i]}</span>`;
+                stepList.appendChild(stepEl);
+                stepList.scrollTop = stepList.scrollHeight;
+
+                let progress = ((i + 1) / steps.length) * 100;
+                progressBar.style.width = `${progress}%`;
+                counter.innerText = `Step ${i + 1}/10`;
+
+                await new Promise(r => setTimeout(r, 800));
+                
+                stepEl.classList.remove('text-blue-400', 'animate-pulse');
+                stepEl.classList.add('text-green-500');
+                stepEl.innerHTML = `<i class="fa-solid fa-check-double"></i> <span>${steps[i]}</span>`;
             }
-        });
+
+            setTimeout(() => {
+                document.getElementById('optimization-window').classList.add('hidden');
+                document.getElementById('results-window').classList.remove('hidden');
+            }, 500);
+        }
     </script>
 </body>
 </html>
